@@ -9,7 +9,7 @@ import { AxiosResponse } from 'axios';
 
 import API from '../data/api';
 import Message from '../components/Message';
-import PlaceholderThumb from '../components/PlaceholderThumb';
+import PlaceholderList from '../components/PlaceholderList';
 import SearchBar from '../components/SearchBar';
 import UserThumb from '../components/UserThumb';
 import { UserType } from '../types/UserType';
@@ -53,23 +53,38 @@ class UsersList extends React.Component<{}, State> {
     }
   }
 
+  public searchUsers = () => {
+    const {
+      searchTerm,
+      usersList,
+    }: State = this.state;
+
+    const newUsersList: UserType[] = usersList.filter(({ name }: UserType) => {
+      const containsFirst: boolean = name.first.includes(searchTerm.toLowerCase());
+      const containsLast: boolean = name.last.includes(searchTerm.toLowerCase());
+
+      const fullName: string = `${name.first} ${name.last}`;
+      const containsBoth: boolean = fullName.includes(searchTerm.toLowerCase());
+
+      return containsFirst || containsLast || containsBoth;
+    });
+
+    this.setState({ usersList: newUsersList });
+  }
+
   public handleSearchChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
     event.preventDefault();
-
-    this.setState({
-      searchTerm: event.currentTarget.value,
-    });
+    this.setState({ searchTerm: event.currentTarget.value });
   }
 
   public handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const { searchTerm }: State = this.state;
-
     event.preventDefault();
 
     if (!searchTerm) {
       this.fetchUsersList();
     } else {
-      // this.searchUsers(searchTerm);
+      this.searchUsers();
     }
   }
 
@@ -89,22 +104,6 @@ class UsersList extends React.Component<{}, State> {
     );
   }
 
-  public renderPlaceholders = (): React.ReactNode => {
-    const placeholders: React.ReactNode[] = [];
-
-    for (let i: number = 0; i < 32; i = i + 1) {
-      const placeholder: React.ReactNode = (
-        <Col lg="3" md="6" key={i}>
-          <PlaceholderThumb />
-        </Col>
-      );
-
-      placeholders.push(placeholder);
-    }
-
-    return placeholders;
-  }
-
   public renderUsersList = (): React.ReactNode => {
     const {
       usersList,
@@ -112,7 +111,7 @@ class UsersList extends React.Component<{}, State> {
     }: State = this.state;
 
     if (usersListLoadingState === 'fetching') {
-      return this.renderPlaceholders();
+      return <PlaceholderList />;
     }
 
     if (usersList.length <= 0) {
