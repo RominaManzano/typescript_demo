@@ -1,13 +1,171 @@
 import React from 'react';
 import styled from 'styled-components';
+import {
+  Col,
+  Container,
+  Row,
+} from 'reactstrap';
+import { AxiosResponse } from 'axios';
 
-const UsersList: React.FC = () => {
-  return (
-    <Title>
-      ListMeApp
-    </Title>
-  );
-};
+import API from '../data/api';
+import Message from '../components/Message';
+import PlaceholderThumb from '../components/PlaceholderThumb';
+import SearchBar from '../components/SearchBar';
+import UserThumb from '../components/UserThumb';
+import { UserType } from '../types/UserType';
+
+interface State {
+  searchTerm: string;
+  usersList: UserType[];
+  usersListLoadingState: 'needed' | 'fetching' | 'loaded' | 'error';
+}
+
+class UsersList extends React.Component<{}, State> {
+  public state: State = {
+    searchTerm: '',
+    usersList: [],
+    usersListLoadingState: 'needed',
+  };
+
+  public async componentDidMount(): Promise<void> {
+    const { usersListLoadingState }: State = this.state;
+
+    if (usersListLoadingState === 'needed') {
+      this.fetchUsersList();
+    }
+  }
+
+  public fetchUsersList = async () => {
+    this.setState({ usersListLoadingState: 'fetching' });
+
+    try {
+      const res: AxiosResponse = await API.get('/api', {
+        headers: { 'Content-Type': 'application/json' },
+        params: { results: 32 },
+      });
+
+      this.setState({
+        usersList: res.data.results,
+        usersListLoadingState: 'loaded',
+      });
+    } catch (error) {
+      this.setState({ usersListLoadingState: 'error' });
+    }
+  }
+
+  public handleSearchChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    event.preventDefault();
+
+    this.setState({
+      searchTerm: event.currentTarget.value,
+    });
+  }
+
+  public handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const { searchTerm }: State = this.state;
+
+    event.preventDefault();
+
+    if (!searchTerm) {
+      this.fetchUsersList();
+    } else {
+      // this.searchUsers(searchTerm);
+    }
+  }
+
+  public renderSearchBar = (): React.ReactNode => {
+    const { searchTerm }: State = this.state;
+
+    return (
+      <Row>
+        <Col lg={{ size: 4, offset: 4 }} md={{ size: 6, offset: 3 }} xs="12">
+          <SearchBar
+            term={searchTerm}
+            onChange={this.handleSearchChange}
+            onSubmit={this.handleSearchSubmit}
+          />
+        </Col>
+      </Row>
+    );
+  }
+
+  public renderPlaceholders = (): React.ReactNode => {
+    const placeholders: React.ReactNode[] = [];
+
+    for (let i: number = 0; i < 32; i = i + 1) {
+      const placeholder: React.ReactNode = (
+        <Col lg="3" md="6" key={i}>
+          <PlaceholderThumb />
+        </Col>
+      );
+
+      placeholders.push(placeholder);
+    }
+
+    return placeholders;
+  }
+
+  public renderUsersList = (): React.ReactNode => {
+    const {
+      usersList,
+      usersListLoadingState,
+    }: State = this.state;
+
+    if (usersListLoadingState === 'fetching') {
+      return this.renderPlaceholders();
+    }
+
+    if (usersList.length <= 0) {
+      return (
+        <Message
+          type="info"
+          message="No results found"
+        />
+      );
+    }
+
+    if (usersListLoadingState === 'error') {
+      return (
+        <Message
+          type="error"
+          message="Oops! Seems you ecountered an error."
+        />
+      );
+    }
+
+    return usersList.map((user: UserType) => (
+      <Col key={user.login.username} lg="3" md="6">
+        <UserThumb user={user} />
+      </Col>
+    ));
+  }
+
+  public render(): React.ReactNode {
+    return (
+      <Container fluid={true}>
+        <Title>
+          ListMeApp
+        </Title>
+        <Description>
+          If you want to get detailed contact information for a specific user,
+          click on their thumbnail. To close the modal, click on any area outise of
+          it or the <b>X</b> icon.
+          <br />
+          Input a name or last name to search for a specific user. To reset the list,
+          clear the search input.
+        </Description>
+
+        {this.renderSearchBar()}
+
+        <hr />
+
+        <StyledRow>
+          {this.renderUsersList()}
+        </StyledRow>
+      </Container>
+    );
+  }
+}
 
 export default UsersList;
 
@@ -16,4 +174,15 @@ const Title: React.FC = styled.h2`
   font-family: 'Baloo Bhai', cursive;
   color: #f77d92;
   text-align: center;
+`;
+
+const Description: React.FC = styled.p`
+  padding: 10px 0;
+  color: #797979;
+  text-align: center;
+`;
+
+const StyledRow: React.FC = styled(Row)`
+  height: 65vh;
+  overflow: scroll;
 `;
