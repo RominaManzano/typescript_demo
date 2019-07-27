@@ -6,13 +6,22 @@ import {
   MdHighlightOff,
 } from 'react-icons/md';
 
+/*
+  INTERFACE SIMPLE
+  ----------------
+  Usamos las interfaces para definir el tipo que tomaran las props de un componente
+  funcional. En este caso, contamos con 2 props, de las cuales una es opcional.
+*/
 interface Props {
   message: string;
   type?: string;
 }
 
+/* ALIAS DE TIPO */
+type RenderIcon = () => React.ReactNode;
+
 const Message: React.FC<Props> = ({ message, type }: Props) => {
-  const renderIcon: () => React.ReactNode = (): React.ReactNode => {
+  const renderIcon: RenderIcon = (): React.ReactNode => {
     if (type === 'error') {
       return (
         <IconContext.Provider value={{ color: '#f35050', size: '4em' }}>

@@ -14,7 +14,13 @@ interface State {
   modalOpen: boolean;
 }
 
-class UserThumb extends React.Component<Props> {
+/*
+  CLASS COMPONENT
+  ---------------
+  Definimos interfaces para las props y el state de la clase, y las pasamos como
+  parámetros usando los angle brackets (<>);
+*/
+class UserThumb extends React.Component<Props, State> {
   public state: State = {
     modalOpen: false,
   };

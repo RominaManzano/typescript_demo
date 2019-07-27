@@ -1,20 +1,22 @@
 // tslint:disable: no-any
 import React from 'react';
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-import { IconContext } from 'react-icons';
+import { IconContext, IconType } from 'react-icons';
 import { MdClose } from 'react-icons/md';
 
 import TextHelper from '../utils/TextHelper';
 import UserDetail from './UserDetail';
 import { UserType } from '../types/UserType';
 
+type ToggleFunc = () => void;
+
 interface Props {
   isOpen: boolean;
-  toggle: () => void;
+  toggle: ToggleFunc;
   user: UserType;
 }
 
@@ -28,7 +30,7 @@ const UserModal: React.FC<Props> = ({ isOpen, toggle, user }: Props) => {
   const displayGender: string = TextHelper.capitalize(user.gender);
   const displayCity: string = TextHelper.capitalize(user.location.city);
 
-  const containerStyle: any = {
+  const containerStyle: object = {
     background: 'white', margin: '-15px', padding: '30px',
   };
 
@@ -76,7 +78,9 @@ const UserModal: React.FC<Props> = ({ isOpen, toggle, user }: Props) => {
 
 export default UserModal;
 
-const StyledMdClose: React.FC<any> = styled(MdClose)`
+type StyledMdCloseType = StyledComponent<IconType, any, {}, never>;
+
+const StyledMdClose: StyledMdCloseType = styled(MdClose)`
   position: absolute;
   right: 10px;
   top: 10px;

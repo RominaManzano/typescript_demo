@@ -20,6 +20,7 @@ interface State {
   usersListLoadingState: 'needed' | 'fetching' | 'loaded' | 'error';
 }
 
+/* Si no tenemos props, podemos pasar un objeto vacío como primer parámetro */
 class UsersList extends React.Component<{}, State> {
   public state: State = {
     searchTerm: '',
@@ -38,19 +39,22 @@ class UsersList extends React.Component<{}, State> {
   public fetchUsersList = async () => {
     this.setState({ usersListLoadingState: 'fetching' });
 
+    let res: AxiosResponse;
+
     try {
-      const res: AxiosResponse = await API.get('/api', {
+      res = await API.get('/api', {
         headers: { 'Content-Type': 'application/json' },
         params: { results: 32 },
       });
-
-      this.setState({
-        usersList: res.data.results,
-        usersListLoadingState: 'loaded',
-      });
     } catch (error) {
       this.setState({ usersListLoadingState: 'error' });
+      return;
     }
+
+    this.setState({
+      usersList: res.data.results,
+      usersListLoadingState: 'loaded',
+    });
   }
 
   public searchUsers = () => {

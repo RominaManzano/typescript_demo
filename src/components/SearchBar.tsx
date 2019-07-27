@@ -9,10 +9,20 @@ import {
 } from 'reactstrap';
 import { MdSearch } from 'react-icons/md';
 
+/*
+  ALIAS DE TIPO
+  -------------
+  Abstraemos el tipado con su propio alias, para poder usarlo luego, de manera
+  más ordenada.
+  Los tipos de eventos, pueden obtenerse utilizando el intellisense.
+*/
+type OnChangeFunc = (event: React.SyntheticEvent<HTMLInputElement>) => void;
+type OnSubmitFunc = (event: React.FormEvent<HTMLFormElement>) => void;
+
 interface Props {
+  onChange: OnChangeFunc;
+  onSubmit: OnSubmitFunc;
   term: string;
-  onChange: (event: React.SyntheticEvent<HTMLInputElement>) => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const SearchBar: React.FC<Props> = (props: Props) => {
