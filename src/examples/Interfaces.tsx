@@ -1,5 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+
+import {
+  ExampleContainer,
+  Label,
+  TitleH3,
+} from '../styles/common';
 
 enum HairColor { Brown, Black, Blonde }
 
@@ -9,6 +14,7 @@ interface Props {
   age: number;
   hobbies: string[];
   hairColor: HairColor;
+  title: string;
 }
 
 const Interfaces: React.FC<Props> = ({
@@ -17,51 +23,42 @@ const Interfaces: React.FC<Props> = ({
   age,
   hobbies,
   hairColor,
+  title,
 }: Props) => {
   return (
-    <Container>
-      <h1>User</h1>
+    <ExampleContainer>
+      <TitleH3>{title}</TitleH3>
 
       <div>
-        <label>Registered</label>
+        <Label>Registered:</Label>
         <span>
-          {isRegistered}
+          {isRegistered ? 'Yes' : 'No'}
         </span>
       </div>
 
       <div>
-        <label>Name</label>
-        <span>
-          {name}
-        </span>
+        <Label>Name:</Label>
+        <span>{name}</span>
       </div>
 
       <div>
-        <label>Age</label>
-        <span>
-          {age}
-        </span>
+        <Label>Age:</Label>
+        <span>{age}</span>
       </div>
 
       <div>
-        <label>Hobbies</label>
+        <Label>Hobbies:</Label>
         <ul>
           {hobbies.map(hobby => <li key={hobby}>{hobby}</li>)}
         </ul>
       </div>
 
       <div>
-        <label>Hair Color</label>
-        <span>
-          {hairColor}
-        </span>
+        <Label>Hair Color:</Label>
+        <span>{hairColor}</span>
       </div>
-    </Container>
+    </ExampleContainer>
   );
 };
 
 export default Interfaces;
-
-const Container: React.FC = styled.div`
-  background-color: #555555;
-`;

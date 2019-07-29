@@ -1,9 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+
+import {
+  ExampleContainer,
+  Label,
+  TitleH3,
+} from '../styles/common';
 
 const BasicTypes: React.FC = () => {
   const isRegistered: boolean = true;
-  const name: string = 'Hello';
+  const name: string = 'Romina';
   const age: number = 26;
   const hobbies: string[] = ['Novels', 'Judo', 'Netflix'];
 
@@ -11,49 +16,39 @@ const BasicTypes: React.FC = () => {
   const hairColor: HairColor = HairColor.Brown;
 
   return (
-    <Container>
-      <h1>User</h1>
+    <ExampleContainer>
+      <TitleH3>Basic Types</TitleH3>
 
       <div>
-        <label>Registered</label>
+        <Label>Registered:</Label>
         <span>
-          {isRegistered}
+          {isRegistered ? 'Yes' : 'No'}
         </span>
       </div>
 
       <div>
-        <label>Name</label>
-        <span>
-          {name}
-        </span>
+        <Label>Name:</Label>
+        <span>{name}</span>
       </div>
 
       <div>
-        <label>Age</label>
-        <span>
-          {age}
-        </span>
+        <Label>Age:</Label>
+        <span>{age}</span>
       </div>
 
       <div>
-        <label>Hobbies</label>
+        <Label>Hobbies:</Label>
         <ul>
           {hobbies.map(hobby => <li key={hobby}>{hobby}</li>)}
         </ul>
       </div>
 
       <div>
-        <label>Hair Color</label>
-        <span>
-          {hairColor}
-        </span>
+        <Label>Hair Color:</Label>
+        <span>{hairColor}</span>
       </div>
-    </Container>
+    </ExampleContainer>
   );
 };
 
 export default BasicTypes;
-
-const Container: React.FC = styled.div`
-  background-color: #555555;
-`;

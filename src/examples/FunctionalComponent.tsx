@@ -19,6 +19,7 @@ const FunctionalComponent: React.FC = () => {
       age={26}
       hobbies={getHobbies()}
       hairColor={0}
+      title="Functional Component"
     />
   );
 };

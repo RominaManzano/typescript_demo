@@ -8,7 +8,7 @@ class ClassBasedComponent extends React.Component<{}, {}> {
       'Netflix',
       'Novels',
     ];
-  };
+  }
 
   public render(): React.ReactNode {
     return (
@@ -18,6 +18,7 @@ class ClassBasedComponent extends React.Component<{}, {}> {
         age={26}
         hobbies={this.getHobbies()}
         hairColor={0}
+        title="Class Based Component"
       />
     );
   }

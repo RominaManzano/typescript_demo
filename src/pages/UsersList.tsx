@@ -12,6 +12,7 @@ import Message from '../components/Message';
 import PlaceholderList from '../components/PlaceholderList';
 import SearchBar from '../components/SearchBar';
 import UserThumb from '../components/UserThumb';
+import { TitleH2 } from '../styles/common';
 import { UserType } from '../types/UserType';
 
 interface State {
@@ -20,7 +21,9 @@ interface State {
   usersListLoadingState: 'needed' | 'fetching' | 'loaded' | 'error';
 }
 
-/* Si no tenemos props, podemos pasar un objeto vacío como primer parámetro */
+/*
+  If we don't have props, we can pass an empty object as the first parameter
+*/
 class UsersList extends React.Component<{}, State> {
   public state: State = {
     searchTerm: '',
@@ -146,9 +149,9 @@ class UsersList extends React.Component<{}, State> {
   public render(): React.ReactNode {
     return (
       <Container fluid={true}>
-        <Title>
+        <TitleH2>
           ListMeApp
-        </Title>
+        </TitleH2>
         <Description>
           If you want to get detailed contact information for a specific user,
           click on their thumbnail. To close the modal, click on any area outise of
@@ -171,13 +174,6 @@ class UsersList extends React.Component<{}, State> {
 }
 
 export default UsersList;
-
-const Title: React.FC = styled.h2`
-  margin-top: 20px;
-  font-family: 'Baloo Bhai', cursive;
-  color: #f77d92;
-  text-align: center;
-`;
 
 const Description: React.FC = styled.p`
   padding: 10px 0;
