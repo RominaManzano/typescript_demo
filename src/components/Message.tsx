@@ -7,17 +7,17 @@ import {
 } from 'react-icons/md';
 
 /*
-  INTERFACE SIMPLE
+  SIMPLE INTERFACE
   ----------------
-  Usamos las interfaces para definir el tipo que tomaran las props de un componente
-  funcional. En este caso, contamos con 2 props, de las cuales una es opcional.
+  We use interfaces to define the shape and types that functional component
+  props will have. In this case, we have 2 props, one of which is optional.
 */
 interface Props {
   message: string;
   type?: string;
 }
 
-/* ALIAS DE TIPO */
+/* TYPE ALIAS */
 type RenderIcon = () => React.ReactNode;
 
 const Message: React.FC<Props> = ({ message, type }: Props) => {

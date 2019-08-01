@@ -2,11 +2,11 @@ import React from 'react';
 import ContentLoader from 'react-content-loader';
 
 /*
-  COMPONENTE FUNCIONAL SIMPLE
+  SIMPLE FUNCTIONAL COMPONENT
   ---------------------------
-  En este caso no es necesario especificar el tipo de retorno de la función,
-  ya que TypeScript es capaz de inferir que devolveremos un tipo ReactNode
-  solo por el hecho de que que definimos la variable como un componente funcional.
+  In this case, it isn't necessary to especify the function's return type
+  beacause TypeScript is able to infere the return type of 'ReactNode' as
+  we defined the variable 'PlaceholderThumb' as functional component.
 */
 const PlaceholderThumb: React.FC = () => {
   return (

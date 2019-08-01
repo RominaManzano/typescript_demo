@@ -17,8 +17,8 @@ interface State {
 /*
   CLASS COMPONENT
   ---------------
-  Definimos interfaces para las props y el state de la clase, y las pasamos como
-  parámetros usando los angle brackets (<>);
+  We define interfaces for both props and state and we pass them down to the
+  class using the angle brackets.
 */
 class UserThumb extends React.Component<Props, State> {
   public state: State = {

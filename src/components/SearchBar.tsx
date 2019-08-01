@@ -10,11 +10,10 @@ import {
 import { MdSearch } from 'react-icons/md';
 
 /*
-  ALIAS DE TIPO
+  TYPE ALIASES
   -------------
-  Abstraemos el tipado con su propio alias, para poder usarlo luego, de manera
-  más ordenada.
-  Los tipos de eventos, pueden obtenerse utilizando el intellisense.
+  We abstract the typing with its own alias, in order to use it later.
+  Event types can be obtained using intellisense capabilities.
 */
 type OnChangeFunc = (event: React.SyntheticEvent<HTMLInputElement>) => void;
 type OnSubmitFunc = (event: React.FormEvent<HTMLFormElement>) => void;
